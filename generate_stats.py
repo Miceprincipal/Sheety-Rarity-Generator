@@ -1,6 +1,6 @@
 import json
 import os
-from jinja2 import Environment, FileSystemLoader
+from jinja2 import Environment, FileSystemLoader               #requires jinja2
 import sys
 
 if len(sys.argv) < 2:
@@ -15,7 +15,7 @@ env = Environment(loader=FileSystemLoader('./'))
 # Load the NFT metadata JSON files
 trait_statistics = {}
 
-for i in range(5100):
+for i in range(10000): #Set number of jsons in folder *IMPORTANT*
     json_filename = f"build/json/{i}.json"  # Adjust the file path accordingly
     with open(json_filename, 'r') as json_file:
         nft_metadata = json.load(json_file)
