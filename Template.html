@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ page_title }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            text-align: center;
+        }
+        table {
+            border-collapse: collapse;
+            width: 80%;
+            margin: auto;
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .trait-type {
+            background-color: #efefef;
+            font-weight: bold;
+            padding: 8px;
+        }
+        .trait-gap {
+            height: 20px;
+        }
+        .horizontal-index {
+            text-align: center;
+        }
+        /* Additions */
+        .dropdown {
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+     <h1>{{ page_title }}</h1>
+    <div class="dropdown">
+        <label for="traitSelect">Jump to Trait Type:</label>
+        <select id="traitSelect" onchange="jumpToTraitType(this)">
+            <option value="">Select a Trait Type</option>
+            {% for trait_type, _ in trait_statistics.items() %}
+            <option value="{{ loop.index }}">{{ trait_type }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <table>
+        <tr>
+            <th class="horizontal-index">#</th>
+            <th>Trait</th>
+            <th>Count</th>
+            <th>Percentage</th>
+        </tr>
+        {% for trait_type, values in trait_statistics.items() %}
+        <tr class="trait-type">
+            <td class="horizontal-index" id="{{ loop.index }}">{{ loop.index }}</td>
+            <td colspan="4"><a href="#{{ loop.index }}">{{ trait_type }}</a></td>
+        </tr>
+        {% for value, stats in values.items() %}
+        <tr>
+            <td class="horizontal-index"></td>
+            <td>{{ value }}</td>
+            <td>{{ stats.count }}</td>
+            <td>{{ stats.percentage }}%</td>
+        </tr>
+        {% endfor %}
+        {% endfor %}
+    </table>
+    
+    <script>
+        function jumpToTraitType(selectElement) {
+            const selectedIndex = selectElement.options.selectedIndex;
+            if (selectedIndex > 0) {
+                const targetId = selectElement.options[selectedIndex].value;
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    window.scrollTo(0, targetElement.offsetTop);
+                }
+            }
+        }
+    </script>
+</body>
+</html>
